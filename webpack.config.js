@@ -1,6 +1,8 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack');
+const sendGridValue = require('fs').readFileSync('./.sendgrid', 'utf8');
 
 module.exports = {
   entry: './src/index.jsx',
@@ -23,9 +25,16 @@ module.exports = {
     ],
   },
   plugins:
-    process.env.NODE_ENV === 'production'
+    (process.env.NODE_ENV === 'production'
       ? ([
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({ template: './src/index.html', filename: path.resolve(__dirname, 'index.html') }),
-      ]) : [new HtmlWebpackPlugin({ template: './src/index.html' })],
+      ]) : [
+        new HtmlWebpackPlugin({ template: './src/index.html' }),
+      ])
+      .concat([
+        new webpack.DefinePlugin({
+          SENDGRID_API_KEY: JSON.stringify(sendGridValue),
+        }),
+      ]),
 };

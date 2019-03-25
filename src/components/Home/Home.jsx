@@ -2,6 +2,7 @@ import React from 'react';
 import { Page, Anchor } from 'estyled';
 import styled from 'styled-components';
 import Article from '../Articles/Article';
+import Contact from '../Contact/Contact';
 import getImageURL from '../../common/getImageURL';
 import money from '../../images/money.jpg';
 
@@ -59,5 +60,8 @@ and
 to file issues and request new features and changes.
       </Article.Paragraph>
     </Article.Section>
+    <Page.Section>
+      <Contact />
+    </Page.Section>
   </StyledArticle>
 );
