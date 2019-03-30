@@ -72,7 +72,7 @@ export default class Contact extends React.Component {
     return (
       <>
         {showNotification && <StyledNotification level={Notification.LEVELS.SUCCESS} title="Success!" body="Thanks for contacting me, I will see your message shortly!" />}
-        <StyledForm className={className} onSubmit={this.showNotification} action="mailto:firemovement.98103@gmail.com" target="_blank" enctype="text/plain">
+        <StyledForm className={className} onSubmit={this.showNotification} action="mailto:fire.movement.98103@gmail.com" target="_blank" enctype="text/plain">
           <StyledFormField required>
             <Label htmlFor="name">Name</Label>
             <Input id="name" placeholder="First Last" name="name" required onChange={evt => this.onChange('name', evt)} />
