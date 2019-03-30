@@ -22,6 +22,11 @@ module.exports = {
     rules: [
       { test: /\.jsx?$/, use: 'babel-loader' },
       { test: /\.(png|svg|jpg|gif)$/, use: ['file-loader'] },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: ['image-webpack-loader'],
+        enforce: 'pre',
+      },
     ],
   },
   plugins:
