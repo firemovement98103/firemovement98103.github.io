@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Article from '../Articles/Article';
 import getImageURL from '../../common/getImageURL';
 import money from '../../images/money.jpg';
-import { ContactPageSection } from '../Contact/Contact';
+import ContactPageSection from '../Contact/ContactPageSection';
 
 const StyledArticle = styled(Article)`
   ${Article.Image} {
