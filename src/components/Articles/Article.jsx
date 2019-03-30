@@ -3,18 +3,23 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Heading, Paragraph, Page } from 'estyled';
 
+const StyledArticleSection = styled(Page.Section)`
+  ${({ theme }) => `
+    padding: ${theme.spacing.md()};
+  `}
+`;
 const StyledArticleSectionHeading = styled(Heading)`
   ${({ theme }) => `
     margin-bottom: ${theme.spacing.xs()};
   `}
 `;
 const ArticleSection = ({ title, children }) => (
-  <Page.Section>
+  <StyledArticleSection>
     <Page.Content>
       <StyledArticleSectionHeading h="4">{title}</StyledArticleSectionHeading>
       {children}
     </Page.Content>
-  </Page.Section>
+  </StyledArticleSection>
 );
 ArticleSection.propTypes = {
   title: PropTypes.string.isRequired,

@@ -7,6 +7,7 @@ const sendGridValue = require('fs').readFileSync('./.sendgrid', 'utf8');
 module.exports = {
   entry: './src/index.jsx',
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+  devtool: process.env.NODE_ENV === 'production' ? 'none' : 'eval',
   resolve: {
     modules: ['node_modules'],
     extensions: ['.jsx', '.js'],
@@ -30,6 +31,7 @@ module.exports = {
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({ template: './src/index.html', filename: path.resolve(__dirname, 'index.html') }),
       ]) : [
+        new webpack.SourceMapDevToolPlugin(),
         new HtmlWebpackPlugin({ template: './src/index.html' }),
       ])
       .concat([

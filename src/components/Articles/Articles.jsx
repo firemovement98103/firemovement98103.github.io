@@ -3,13 +3,17 @@ import PropTypes from 'prop-types';
 import {
   Switch, Route, Redirect,
 } from 'react-router-dom';
+import { ContactPageSection } from '../Contact/Contact';
 
 const Articles = ({ match }) => (
-  <Switch>
-    <Route path={match.path} component={() => 'Articles Home'} exact />
-    <Route path={`${match.path}/hsa`} component={() => 'Information about HSAs'} exact />
-    <Redirect to={match.path} exact />
-  </Switch>
+  <>
+    <Switch>
+      <Route path={match.path} component={() => 'Articles Home'} exact />
+      <Route path={`${match.path}/hsa`} component={() => 'Information about HSAs'} exact />
+      <Redirect to={match.path} exact />
+    </Switch>
+    <ContactPageSection debug={{ Feature: 'Article', path: match.path }} />
+  </>
 );
 Articles.propTypes = {
   match: PropTypes.shape({
