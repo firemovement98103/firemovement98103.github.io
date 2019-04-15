@@ -28,6 +28,7 @@ ArticleSection.propTypes = {
 
 const StyledTopImage = styled.div`
   height: 350px;
+  background-size: cover;
   ${({ theme, src }) => `
     background-image: url("${src}");
     margin-bottom: ${theme.spacing.sm()};
@@ -41,14 +42,21 @@ const StyledHeading = styled(Heading)`
     margin-bottom: ${theme.spacing.md()};
   `}
 `;
+const StyledArticle = styled.div`
+  ${({ theme }) => `
+    ${Paragraph} + ${Paragraph} {
+      margin-top: ${theme.spacing.sm()};
+    }
+  `}
+`;
 const Article = ({
   imageSrc, children, className, title,
 }) => (
-  <div className={className}>
+  <StyledArticle className={className}>
     <StyledTopImage src={imageSrc} />
     <StyledHeading h="2">{title}</StyledHeading>
     {children}
-  </div>
+  </StyledArticle>
 );
 Article.propTypes = {
   className: PropTypes.string,
