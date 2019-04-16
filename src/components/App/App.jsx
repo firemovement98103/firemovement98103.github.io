@@ -12,7 +12,6 @@ import Articles, { NAVIGATION_ITEMS as articlesNavigation } from '../Articles/Ar
 import Tools, { NAVIGATION_ITEMS as toolsNavigation } from '../Tools/Tools';
 
 const history = createHashHistory();
-
 const StyledMobileNav = styled(MobileNav)`
   position: absolute;
   top: 61px; // 60px header height, 1px border
@@ -21,6 +20,7 @@ const StyledMobileNav = styled(MobileNav)`
 const StyledPage = styled(Page)`
   position: relative;
 `;
+
 export default class App extends React.PureComponent {
   state = { isMobileOpen: false };
 

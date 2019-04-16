@@ -2,6 +2,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
+const CompressionPlugin = require('compression-webpack-plugin');
+const S3Plugin = require('webpack-s3-plugin');
+const AWS = require('aws-sdk');
 
 module.exports = {
   entry: './src/index.jsx',
@@ -15,7 +18,7 @@ module.exports = {
     },
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'public', 'dist'),
     filename: '[name].[hash].js',
   },
   module: {
@@ -34,9 +37,38 @@ module.exports = {
     (process.env.NODE_ENV === 'production'
       ? ([
         new CleanWebpackPlugin(),
-        new HtmlWebpackPlugin({ template: './src/index.html', filename: path.resolve(__dirname, 'index.html') }),
+        new CompressionPlugin({
+          test: /\.(js)$/,
+          filename: '[path]',
+          algorithm: 'gzip',
+        }),
+        new S3Plugin({
+          s3Options: {
+            credentials: new AWS.SharedIniFileCredentials({ profile: 'fire' }),
+            region: 'us-west-2',
+          },
+          s3UploadOptions: {
+            Bucket: 'ficarious-prod',
+            ContentEncoding(fileName) {
+              return /\.(js)/.test(fileName) ? 'gzip' : null;
+            },
+            ContentType(fileName) {
+              let contentType = null;
+              if (/\.js/.test(fileName)) {
+                contentType = 'text/javascript';
+              }
+              if (/\.html/.test(fileName)) {
+                contentType = 'text/html';
+              }
+              return contentType;
+            },
+          },
+          basePath: '',
+          directory: 'public',
+        }),
+        new HtmlWebpackPlugin({ template: './src/index.html', filename: path.resolve(__dirname, 'public', 'index.html') }),
       ]) : [
-        new webpack.SourceMapDevToolPlugin(),
         new HtmlWebpackPlugin({ template: './src/index.html' }),
+        new webpack.SourceMapDevToolPlugin(),
       ]),
 };
