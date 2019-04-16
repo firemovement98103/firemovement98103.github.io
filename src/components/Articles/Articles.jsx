@@ -6,12 +6,32 @@ import {
 import ContactPageSection from '../Contact/ContactPageSection';
 import Career from './career/Career';
 
+export const NAVIGATION_ITEMS = {
+  label: 'Articles',
+  subItems: [{
+    href: '#/articles',
+    label: 'Articles Home',
+    path: '',
+    component: () => 'Articles Home',
+  }, {
+    href: '#/articles/career',
+    label: 'Career',
+    path: '/career',
+    component: Career,
+  }, {
+    href: '#/articles/vehicles',
+    label: 'Investment Vehicles',
+    path: '/vehicles',
+    component: () => 'Investment Vehicles',
+  }],
+};
+
 const Articles = ({ match }) => (
   <>
     <Switch>
-      <Route path={match.path} component={() => 'Articles Home'} exact />
-      <Route path={`${match.path}/hsa`} component={() => 'Information about HSAs'} exact />
-      <Route path={`${match.path}/career`} component={Career} />
+      {NAVIGATION_ITEMS.subItems.map(({ path, component }) => (
+        <Route path={`${match.path}${path}`} component={component} key={path} exact />
+      ))}
       <Redirect to={match.path} exact />
     </Switch>
     <ContactPageSection debug={{ Feature: 'Article', path: match.path }} />

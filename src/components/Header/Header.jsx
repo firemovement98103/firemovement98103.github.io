@@ -5,8 +5,8 @@ import { Header } from 'estyled';
 import getImageURL from '../../common/getImageURL';
 import logoURL from '../../images/logo.png';
 
-const ActiveHeader = ({ location }) => (
-  <Header>
+const ActiveHeader = ({ location, onHamburgerClick, isMobileOpen }) => (
+  <Header onHamburgerClick={onHamburgerClick} isOpen={isMobileOpen}>
     <Header.NavSection>
       <Header.Link href="/#/articles" active={location.pathname === '/articles'}>Articles</Header.Link>
       <Header.Link href="/#/tools" active={location.pathname === '/tools'}>Tools</Header.Link>
@@ -21,6 +21,8 @@ ActiveHeader.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,
+  onHamburgerClick: PropTypes.func.isRequired,
+  isMobileOpen: PropTypes.bool.isRequired,
 };
 
 export default withRouter(ActiveHeader);
