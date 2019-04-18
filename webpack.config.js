@@ -6,6 +6,31 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const S3Plugin = require('webpack-s3-plugin');
 const AWS = require('aws-sdk');
 
+const getS3PluginConfig = isProd => ({
+  s3Options: {
+    credentials: new AWS.SharedIniFileCredentials({ profile: 'fire' }),
+    region: 'us-west-2',
+  },
+  s3UploadOptions: {
+    Bucket: isProd ? 'ficarious.com' : 'dev.ficarious.com',
+    ContentEncoding(fileName) {
+      return /\.(js)/.test(fileName) ? 'gzip' : null;
+    },
+    ContentType(fileName) {
+      let contentType = null;
+      if (/\.js/.test(fileName)) {
+        contentType = 'text/javascript';
+      }
+      if (/\.html/.test(fileName)) {
+        contentType = 'text/html';
+      }
+      return contentType;
+    },
+  },
+  basePath: '',
+  directory: 'public',
+});
+
 module.exports = {
   entry: './src/index.jsx',
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
@@ -42,30 +67,8 @@ module.exports = {
           filename: '[path]',
           algorithm: 'gzip',
         }),
-        new S3Plugin({
-          s3Options: {
-            credentials: new AWS.SharedIniFileCredentials({ profile: 'fire' }),
-            region: 'us-west-2',
-          },
-          s3UploadOptions: {
-            Bucket: 'ficarious-prod',
-            ContentEncoding(fileName) {
-              return /\.(js)/.test(fileName) ? 'gzip' : null;
-            },
-            ContentType(fileName) {
-              let contentType = null;
-              if (/\.js/.test(fileName)) {
-                contentType = 'text/javascript';
-              }
-              if (/\.html/.test(fileName)) {
-                contentType = 'text/html';
-              }
-              return contentType;
-            },
-          },
-          basePath: '',
-          directory: 'public',
-        }),
+        new S3Plugin(getS3PluginConfig(false)),
+        new S3Plugin(getS3PluginConfig(true)),
         new HtmlWebpackPlugin({ template: './src/index.html', filename: path.resolve(__dirname, 'public', 'index.html') }),
       ]) : [
         new HtmlWebpackPlugin({ template: './src/index.html' }),
