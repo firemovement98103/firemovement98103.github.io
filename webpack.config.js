@@ -5,6 +5,7 @@ const webpack = require('webpack');
 const CompressionPlugin = require('compression-webpack-plugin');
 const S3Plugin = require('webpack-s3-plugin');
 const AWS = require('aws-sdk');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const getS3PluginConfig = isProd => ({
   s3Options: {
@@ -59,7 +60,14 @@ module.exports = {
     ],
   },
   plugins:
-    (process.env.NODE_ENV === 'production'
+    [
+      new CopyWebpackPlugin([{
+        from: './src/images/favicon-32x32.png', to: path.resolve(__dirname, 'public', 'dist'), flatten: true,
+      }]),
+      new CopyWebpackPlugin([{
+        from: './src/images/logo.png', to: path.resolve(__dirname, 'public', 'dist'), flatten: true,
+      }]),
+    ].concat(...(process.env.NODE_ENV === 'production'
       ? ([
         new CleanWebpackPlugin(),
         new CompressionPlugin({
@@ -73,5 +81,5 @@ module.exports = {
       ]) : [
         new HtmlWebpackPlugin({ template: './src/index.html' }),
         new webpack.SourceMapDevToolPlugin(),
-      ]),
+      ])),
 };
