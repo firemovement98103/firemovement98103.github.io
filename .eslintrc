@@ -1,9 +1,10 @@
 {
   "extends": ["airbnb"],
-  "plugins": ["eslint-plugin-jsx-a11y"],
+  "plugins": ["eslint-plugin-jsx-a11y", "eslint-plugin-jest"],
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "jest/globals": true
   },
   "parser": "babel-eslint"
 }
