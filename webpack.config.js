@@ -27,6 +27,7 @@ const getS3PluginConfig = isProd => ({
       }
       return contentType;
     },
+    CacheControl: 'max-age=315360000',
   },
   basePath: '',
   directory: 'public',

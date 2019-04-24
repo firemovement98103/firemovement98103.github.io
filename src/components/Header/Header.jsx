@@ -22,6 +22,7 @@ const ActiveHeader = ({ location, onHamburgerClick, isMobileOpen }) => (
     <StyledLogoContainer
       src={getImageURL(logoURL)}
       href="#/"
+      alt="FICarious"
     />
   </Header>
 );
