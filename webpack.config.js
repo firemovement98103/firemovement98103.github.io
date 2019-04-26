@@ -50,7 +50,7 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.jsx?$/, use: 'babel-loader' },
+      { test: /\.jsx?$/, use: 'babel-loader', exclude: /node_modules/ },
       { test: /\.(png|jpg|gif)$/, use: 'file-loader' },
       {
         test: /\.(png|jpg|gif)$/,
