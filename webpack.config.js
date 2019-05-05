@@ -69,10 +69,10 @@ module.exports = {
         from: './src/images/logo.png', to: path.resolve(__dirname, 'public', 'dist'), flatten: true,
       }]),
       new CopyWebpackPlugin([{
-        from: './src/robots.txt', to: path.resolve(__dirname, 'public', 'dist'), flatten: true,
+        from: './src/robots.txt', to: path.resolve(__dirname, 'public'), flatten: true,
       }]),
       new CopyWebpackPlugin([{
-        from: './src/sitemap.xml', to: path.resolve(__dirname, 'public', 'dist'), flatten: true,
+        from: './src/sitemap.xml', to: path.resolve(__dirname, 'public'), flatten: true,
       }]),
     ].concat(...(process.env.NODE_ENV === 'production'
       ? ([
