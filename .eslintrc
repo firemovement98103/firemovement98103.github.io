@@ -1,6 +1,9 @@
 {
   "extends": ["airbnb"],
   "plugins": ["eslint-plugin-jsx-a11y", "eslint-plugin-jest"],
+  "rules": {
+    "react/no-did-update-set-state": 0
+  },
   "env": {
     "browser": true,
     "node": true,

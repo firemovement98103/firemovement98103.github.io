@@ -4,6 +4,7 @@ import {
   Switch, Route, Redirect, withRouter,
 } from 'react-router-dom';
 import ContactPageSection from '../Contact/ContactPageSection';
+import Networth from './Networth/Networth';
 
 export const NAVIGATION_ITEMS = {
   label: 'Tools',
@@ -12,6 +13,11 @@ export const NAVIGATION_ITEMS = {
     path: '',
     label: 'Tools Home',
     component: () => 'Tools Home',
+  }, {
+    href: '#/tools/networth',
+    path: '/networth',
+    label: 'Networth Calculator',
+    component: Networth,
   }, {
     href: '#/tools/coastFIDate',
     path: '/coastFIDate',
