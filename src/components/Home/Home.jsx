@@ -18,7 +18,7 @@ const StyledArticle = styled(Article)`
   `};
 `;
 export default () => (
-  <StyledArticle imageSrc={getImageURL(money)} title="FICarious">
+  <StyledArticle imageSrc={getImageURL(money)} title="Home" description="Welcome to FICarious!">
     <Article.Section title="Who am I?">
       <Article.Paragraph>
         I&apos;m a software developer, with a focus on front-end

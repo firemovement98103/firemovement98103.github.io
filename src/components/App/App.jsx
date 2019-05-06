@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ThemeProvider, Page, MobileNav } from 'estyled';
+import { Helmet } from 'react-helmet';
 import {
   Route, Switch, Redirect,
 } from 'react-router-dom';
@@ -22,11 +23,12 @@ const StyledPage = styled(Page)`
 `;
 
 export default class App extends React.PureComponent {
-  state = { isMobileOpen: false };
+  state = { isMobileOpen: false, currentHREF: window.location.href };
 
   componentDidMount() {
     this.unlisten = history.listen(() => this.setState({
       isMobileOpen: false,
+      currentHREF: window.location.href,
     }));
   }
 
@@ -42,10 +44,20 @@ export default class App extends React.PureComponent {
   }
 
   render() {
-    const { isMobileOpen } = this.state;
+    const { isMobileOpen, currentHREF } = this.state;
     return (
       <ThemeProvider>
         <StyledPage>
+          <Helmet>
+            <link rel="canonical" href={currentHREF} />
+            <meta property="og:url" content={currentHREF} />
+            <meta property="og:type" content="article" />
+            <meta property="og:title" content="FICarious" />
+            <meta property="og:image" content="https://ficarious.com/dist/logo.png" />
+            <meta property="og:description" content="FICarious, a site to learn about financial independence!" />
+            <meta name="Description" content="FICarious, a site to learn about financial independence!" />
+            <title>FICarious</title>
+          </Helmet>
           <Router history={history}>
             <Header isMobileOpen={isMobileOpen} onHamburgerClick={this.toggleMobileNav} />
             <StyledMobileNav

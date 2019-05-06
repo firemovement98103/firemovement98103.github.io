@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Heading, Paragraph, Page } from 'estyled';
+import { Helmet } from 'react-helmet';
 
 const StyledArticleSection = styled(Page.Section)`
   ${({ theme }) => `
@@ -50,23 +51,35 @@ const StyledArticle = styled.div`
   `}
 `;
 const Article = ({
-  imageSrc, children, className, title,
+  imageSrc, children, className, title, description, ogSrc,
 }) => (
-  <StyledArticle className={className}>
-    <StyledTopImage src={imageSrc} />
-    <StyledHeading h="2">{title}</StyledHeading>
-    {children}
-  </StyledArticle>
+  <>
+    <Helmet>
+      <title>{`${title} | FICarious`}</title>
+      <meta property="og:title" content={`${title} | FICarious`} />
+      <meta property="og:image" content={ogSrc} />
+      <meta property="og:description" content={description} />
+      <meta name="Description" content={description} />
+    </Helmet>
+    <StyledArticle className={className}>
+      <StyledTopImage src={imageSrc} />
+      <StyledHeading h="2">{title}</StyledHeading>
+      {children}
+    </StyledArticle>
+  </>
 );
 Article.propTypes = {
   className: PropTypes.string,
   imageSrc: PropTypes.string.isRequired,
   children: PropTypes.node,
   title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  ogSrc: PropTypes.string,
 };
 Article.defaultProps = {
   className: null,
   children: null,
+  ogSrc: 'https://ficarious.com/dist/logo.png',
 };
 Article.Image = StyledTopImage;
 Article.Paragraph = Paragraph;

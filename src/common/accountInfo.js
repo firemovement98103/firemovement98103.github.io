@@ -1,4 +1,6 @@
-export const ACCOUNT_TYPES = {
+import Immutable from 'seamless-immutable';
+
+export const ACCOUNT_TYPES = new Immutable({
   '401K': '401k',
   '457B': '457b',
   '403b': '403b',
@@ -14,9 +16,9 @@ export const ACCOUNT_TYPES = {
   HSA: 'HSA',
   SEP_IRA: 'SEP IRA',
   529: '529',
-};
+});
 
-export const DEBT_ACCOUNT_TYPES = {
+export const DEBT_ACCOUNT_TYPES = new Immutable({
   STUDENT_LOANS: 'Student Loans',
   CREDIT_CARDS: 'Credit Cards',
   PERSONAL_LOAN: 'Personal Loan',
@@ -27,19 +29,19 @@ export const DEBT_ACCOUNT_TYPES = {
   MEDICAL_DEBT: 'Medical',
   '401K_LOAN': '401k Loan',
   OTHER: 'Other debt',
-};
+});
 
-export const ASSET_TYPES = {
+export const ASSET_TYPES = new Immutable({
   HOME_EQUITY: 'Home Equity',
   RENTAL_EQUITY: 'Rental Equity',
   CAR: 'Car',
   OTHER: 'Other asset',
-};
+});
 
-export const TAX_TREATMENTS = {
+export const TAX_TREATMENTS = new Immutable({
   ROTH: 'Roth',
   TRADITIONAL: 'Traditional',
-};
+});
 
 const valueToKey = (value, obj) => Object.entries(obj)
   .find(([, entryValue]) => value === entryValue)[0];
