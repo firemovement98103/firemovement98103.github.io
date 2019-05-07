@@ -5,21 +5,21 @@ import styled from 'styled-components';
 import AssetSelect from './AssetSelect';
 import DebtSelect from './DebtSelect';
 
-const StyledBaseInput = styled(BaseInput)``;
-const StyledWholeDollar = styled(WholeDollar)``;
+const StyledInputWrapper = styled.div``;
 const StyledAccountLineItem = styled.div`
   display: flex;
+  justify-content: space-between;
   width: 100%;
-  ${StyledBaseInput}, ${StyledWholeDollar}, ${AssetSelect} {
-    flex-basis: 33%;
+  ${StyledInputWrapper} {
+    flex-basis: 32%;
   }
 `;
 export default class AccountLineItem extends React.Component {
   static propTypes = {
     accountSelect: PropTypes
-      .oneOfType([
-        PropTypes.instanceOf(AssetSelect),
-        PropTypes.instanceOf(DebtSelect),
+      .oneOf([
+        AssetSelect,
+        DebtSelect,
       ]).isRequired,
     type: PropTypes.string,
     name: PropTypes.string,
@@ -34,7 +34,8 @@ export default class AccountLineItem extends React.Component {
     amount: 0,
   }
 
-  state = { type: '', name: '', amount: 0 };
+  // eslint-disable-next-line react/destructuring-assignment
+  state = { type: this.props.type, name: this.props.name, amount: this.props.amount };
 
   componentDidUpdate({ name: prevName, amount: prevAmount, type: prevType }) {
     const { name, amount, type } = this.props;
@@ -49,18 +50,34 @@ export default class AccountLineItem extends React.Component {
     }
   }
 
+  onChange = (key, val) => {
+    this.setState({
+      [key]: val,
+    }, () => {
+      const { onChange } = this.props;
+      const { name, amount, type } = this.state;
+      onChange({ name, amount, type });
+    });
+  };
+
   render() {
     const { accountSelect, id } = this.props;
     const { name, amount, type } = this.state;
     return (
       <StyledAccountLineItem>
-        {React.createElement(accountSelect, {
-          id: `${id}-type`,
-          value: type,
-          onChange: evt => this.setState({ type: evt.target.value }),
-        })}
-        <StyledBaseInput value={name} title="Account Name" name="account" id={`${id}-name`} onChange={val => this.setState({ name: val })} />
-        <StyledWholeDollar value={amount} title="Amount" name="amount" id={`${id}-amount`} onChange={val => this.setState({ amount: val })} />
+        <StyledInputWrapper>
+          {React.createElement(accountSelect, {
+            id: `${id}-type`,
+            value: type,
+            onChange: evt => this.onChange('type', evt.target.value),
+          })}
+        </StyledInputWrapper>
+        <StyledInputWrapper>
+          <BaseInput value={name} title="Account Name" placeholder="Account Name" name="account" id={`${id}-name`} onBlur={val => this.onChange('name', val)} />
+        </StyledInputWrapper>
+        <StyledInputWrapper>
+          <WholeDollar value={amount} title="Amount" name="amount" id={`${id}-amount`} onBlur={val => this.onChange('amount', val)} />
+        </StyledInputWrapper>
       </StyledAccountLineItem>
     );
   }
